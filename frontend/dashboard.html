@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard - Quản lý tài chính cá nhân AI</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+```
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<link rel="stylesheet" href="./css/style.css">
+
+<style>
+    @media print {
+        body {
+            background: white !important;
+        }
+
+        aside,
+        .no-print,
+        #pageSubtitle,
+        .dashboard-nav,
+        button {
+            display: none !important;
+        }
+
+        main {
+            width: 100% !important;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+
+        .dashboard-section {
+            display: none !important;
+        }
+
+        #report-section {
+            display: block !important;
+        }
+
+        .print-card {
+            box-shadow: none !important;
+            border: 1px solid #ddd !important;
+            break-inside: avoid;
+        }
+    }
+</style>
+```
+
+</head>
+
+<body data-page="dashboard" class="bg-slate-100 min-h-screen">
+
+<div class="flex min-h-screen">
+    <aside class="w-72 bg-slate-900 text-white p-6 flex flex-col justify-between">
+        <div>
+            <div class="mb-8">
+                <h1 class="text-2xl font-bold">Finance AI</h1>
+                <p class="text-slate-400 text-sm mt-1">Quản lý tài chính cá nhân</p>
+            </div>
+
+```
+        <div class="bg-slate-800 rounded-xl p-4 mb-6">
+            <p class="text-sm text-slate-400">Tài khoản</p>
+            <p id="userName" class="font-bold mt-1">Đang tải...</p>
+            <p id="userEmail" class="text-xs text-slate-400 mt-1"></p>
+        </div>
+
+        <nav class="space-y-2">
+            <button type="button" class="sidebar-link dashboard-nav active w-full bg-transparent border-0 text-left" data-target="overview-section">
+                📊 Tổng quan
+            </button>
+
+            <button type="button" class="sidebar-link dashboard-nav w-full bg-transparent border-0 text-left" data-target="wallet-section">
+                👛 Ví tiền
+            </button>
+
+            <button type="button" class="sidebar-link dashboard-nav w-full bg-transparent border-0 text-left" data-target="transaction-section">
+                💸 Giao dịch
+            </button>
+
+            <button type="button" class="sidebar-link dashboard-nav w-full bg-transparent border-0 text-left" data-target="chart-section">
+                📈 Biểu đồ
+            </button>
+
+            <button type="button" class="sidebar-link dashboard-nav w-full bg-transparent border-0 text-left" data-target="assistant-section">
+                🤖 Trợ lý AI
+            </button>
+
+            <button type="button" class="sidebar-link dashboard-nav w-full bg-transparent border-0 text-left" data-target="report-section">
+                📄 Báo cáo
+            </button>
+        </nav>
+    </div>
+
+    <button onclick="logout()" class="bg-red-500 hover:bg-red-600 text-white py-3 rounded-xl font-bold no-print">
+        Đăng xuất
+    </button>
+</aside>
+
+<main class="flex-1 p-8 overflow-y-auto">
+    <div class="mb-8">
+        <h2 id="pageTitle" class="text-3xl font-bold text-slate-800">Tổng quan tài chính</h2>
+        <p id="pageSubtitle" class="text-slate-500 mt-2">
+            Theo dõi nhanh tình hình thu chi, số dư và tỷ lệ tiết kiệm
+        </p>
+    </div>
+
+    <section id="overview-section" class="dashboard-section">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-5 mb-8">
+            <div class="bg-white rounded-2xl p-6 shadow-sm">
+                <p class="text-slate-500 text-sm">Tổng thu</p>
+                <h3 id="totalIncome" class="text-2xl font-bold text-green-600 mt-2">0 VNĐ</h3>
+            </div>
+
+            <div class="bg-white rounded-2xl p-6 shadow-sm">
+                <p class="text-slate-500 text-sm">Tổng chi</p>
+                <h3 id="totalExpense" class="text-2xl font-bold text-red-600 mt-2">0 VNĐ</h3>
+            </div>
+
+            <div class="bg-white rounded-2xl p-6 shadow-sm">
+                <p class="text-slate-500 text-sm">Số dư</p>
+                <h3 id="totalBalance" class="text-2xl font-bold text-blue-600 mt-2">0 VNĐ</h3>
+            </div>
+
+            <div class="bg-white rounded-2xl p-6 shadow-sm">
+                <p class="text-slate-500 text-sm">Tỷ lệ tiết kiệm</p>
+                <h3 id="savingRate" class="text-2xl font-bold text-purple-600 mt-2">0%</h3>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-2xl p-6 shadow-sm">
+            <h3 class="text-xl font-bold text-slate-800 mb-3">Nhận xét AI</h3>
+            <p id="aiAnalysisOverview" class="text-slate-600 leading-relaxed whitespace-pre-line">
+                AI Backend đang phân tích dữ liệu tài chính...
+            </p>
+        </div>
+    </section>
+
+    <section id="wallet-section" class="dashboard-section hidden">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div class="bg-white rounded-2xl p-6 shadow-sm">
+                <h3 class="text-xl font-bold text-slate-800 mb-4">Thêm ví tiền</h3>
+
+                <form id="walletForm" class="space-y-4">
+                    <div>
+                        <label class="form-label">Tên ví</label>
+                        <input id="walletName" type="text" class="form-input" placeholder="Ví tiền mặt">
+                    </div>
+
+                    <div>
+                        <label class="form-label">Số dư ban đầu</label>
+                        <input id="walletBalance" type="number" class="form-input" placeholder="0">
+                    </div>
+
+                    <div>
+                        <label class="form-label">Đơn vị tiền</label>
+                        <select id="walletCurrency" class="form-input">
+                            <option value="VND">VND</option>
+                            <option value="USD">USD</option>
+                        </select>
+                    </div>
+
+                    <button class="btn-primary w-full">Tạo ví</button>
+                </form>
+            </div>
+
+            <div class="lg:col-span-2 bg-white rounded-2xl p-6 shadow-sm">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-xl font-bold text-slate-800">Danh sách ví</h3>
+                    <p id="walletStatus" class="text-sm text-slate-500"></p>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Tên ví</th>
+                                <th>Số dư</th>
+                                <th>Tiền tệ</th>
+                                <th>Ngày tạo</th>
+                                <th>Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody id="walletTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="transaction-section" class="dashboard-section hidden">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div class="bg-white rounded-2xl p-6 shadow-sm">
+                <h3 class="text-xl font-bold text-slate-800 mb-4">Thêm giao dịch</h3>
+
+                <form id="transactionForm" class="space-y-4">
+                    <div>
+                        <label class="form-label">Ngày</label>
+                        <input id="transactionDate" type="date" class="form-input">
+                    </div>
+
+                    <div>
+                        <label class="form-label">Loại giao dịch</label>
+                        <select id="transactionType" class="form-input">
+                            <option value="Chi">Chi</option>
+                            <option value="Thu">Thu</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="form-label">Danh mục</label>
+                        <select id="transactionCategory" class="form-input"></select>
+                    </div>
+
+                    <div>
+                        <label class="form-label">Số tiền</label>
+                        <input id="transactionAmount" type="number" class="form-input" placeholder="30000">
+                    </div>
+
+                    <div>
+                        <label class="form-label">Ghi chú</label>
+                        <input id="transactionNote" type="text" class="form-input" placeholder="Ăn sáng">
+                    </div>
+
+                    <button class="btn-primary w-full">Thêm giao dịch</button>
+                </form>
+            </div>
+
+            <div class="lg:col-span-2 bg-white rounded-2xl p-6 shadow-sm">
+                <h3 class="text-xl font-bold text-slate-800 mb-4">Lịch sử giao dịch</h3>
+
+                <div class="overflow-x-auto">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Ngày</th>
+                                <th>Loại</th>
+                                <th>Danh mục</th>
+                                <th>Số tiền</th>
+                                <th>Ghi chú</th>
+                                <th>Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody id="transactionTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="chart-section" class="dashboard-section hidden">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div class="bg-white rounded-2xl p-6 shadow-sm">
+                <h3 class="text-xl font-bold text-slate-800 mb-4">Chi tiêu theo danh mục</h3>
+                <canvas id="categoryChart"></canvas>
+            </div>
+
+            <div class="bg-white rounded-2xl p-6 shadow-sm">
+                <h3 class="text-xl font-bold text-slate-800 mb-4">Xu hướng thu chi</h3>
+                <canvas id="trendChart"></canvas>
+            </div>
+        </div>
+    </section>
+
+    <section id="assistant-section" class="dashboard-section hidden">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div class="bg-white rounded-2xl p-6 shadow-sm">
+                <h3 class="text-xl font-bold text-slate-800 mb-4">AI tự thêm giao dịch</h3>
+
+                <form id="quickAddForm" class="space-y-4">
+                    <textarea id="quickText" class="form-input min-h-[120px]" placeholder="Ví dụ: Sáng ăn bánh mì 30k, trưa uống trà sữa 40k, tối nhận lương 5 triệu"></textarea>
+                    <button class="btn-primary w-full">AI phân tích và thêm giao dịch</button>
+                </form>
+
+                <p id="quickResult" class="text-sm text-slate-600 mt-4 leading-relaxed"></p>
+            </div>
+
+            <div class="bg-white rounded-2xl p-6 shadow-sm">
+                <h3 class="text-xl font-bold text-slate-800 mb-4">Hỏi trợ lý AI</h3>
+
+                <div id="aiChatBox" class="bg-slate-50 rounded-xl p-4 h-64 overflow-y-auto mb-4 text-sm">
+                    <div class="ai-message mb-3">
+                        <b>AI:</b> Xin chào, tôi có thể phân tích thu chi, trả lời câu hỏi và hỗ trợ quản lý tài chính cá nhân.
+                    </div>
+                </div>
+
+                <form id="aiForm" class="flex gap-3">
+                    <input id="aiQuestion" type="text" class="form-input flex-1" placeholder="Tôi chi nhiều nhất vào đâu?">
+                    <button class="btn-primary px-6">Gửi</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-2xl p-6 shadow-sm mt-6">
+            <h3 class="text-xl font-bold text-slate-800 mb-3">Nhận xét tài chính từ AI</h3>
+            <p id="aiAnalysis" class="text-slate-600 leading-relaxed whitespace-pre-line">
+                AI Backend đang phân tích dữ liệu tài chính...
+            </p>
+        </div>
+    </section>
+
+    <section id="report-section" class="dashboard-section hidden">
+        <div class="bg-white rounded-2xl p-6 shadow-sm mb-6 no-print">
+            <div class="flex flex-col lg:flex-row lg:items-end gap-4">
+                <div class="flex-1">
+                    <label class="form-label">Khoảng thời gian</label>
+                    <select id="reportPeriod" class="form-input">
+                        <option value="all">Tất cả dữ liệu</option>
+                        <option value="month">Theo tháng</option>
+                    </select>
+                </div>
+
+                <div class="flex-1">
+                    <label class="form-label">Chọn tháng</label>
+                    <input id="reportMonth" type="month" class="form-input">
+                </div>
+
+                <div class="flex-1">
+                    <label class="form-label">Loại giao dịch</label>
+                    <select id="reportType" class="form-input">
+                        <option value="all">Tất cả</option>
+                        <option value="Thu">Chỉ khoản thu</option>
+                        <option value="Chi">Chỉ khoản chi</option>
+                    </select>
+                </div>
+
+                <div class="flex gap-3">
+                    <button id="generateReportBtn" type="button" class="btn-primary px-5">
+                        Tạo báo cáo
+                    </button>
+
+                    <button id="exportCsvBtn" type="button" class="bg-green-600 hover:bg-green-700 text-white px-5 py-3 rounded-xl font-bold">
+                        Xuất CSV
+                    </button>
+
+                    <button id="printReportBtn" type="button" class="bg-slate-800 hover:bg-slate-900 text-white px-5 py-3 rounded-xl font-bold">
+                        In/PDF
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="reportContent">
+            <div class="bg-white rounded-2xl p-6 shadow-sm mb-6 print-card">
+                <h3 class="text-2xl font-bold text-slate-800">Báo cáo tài chính cá nhân</h3>
+                <p id="reportRangeText" class="text-slate-500 mt-2">
+                    Phạm vi báo cáo: Tất cả dữ liệu
+                </p>
+                <p id="reportGeneratedAt" class="text-sm text-slate-400 mt-1"></p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-6 gap-5 mb-6">
+                <div class="bg-white rounded-2xl p-5 shadow-sm print-card">
+                    <p class="text-slate-500 text-sm">Tổng thu</p>
+                    <h3 id="reportIncome" class="text-xl font-bold text-green-600 mt-2">0 VNĐ</h3>
+                </div>
+
+                <div class="bg-white rounded-2xl p-5 shadow-sm print-card">
+                    <p class="text-slate-500 text-sm">Tổng chi</p>
+                    <h3 id="reportExpense" class="text-xl font-bold text-red-600 mt-2">0 VNĐ</h3>
+                </div>
+
+                <div class="bg-white rounded-2xl p-5 shadow-sm print-card">
+                    <p class="text-slate-500 text-sm">Số dư</p>
+                    <h3 id="reportBalance" class="text-xl font-bold text-blue-600 mt-2">0 VNĐ</h3>
+                </div>
+
+                <div class="bg-white rounded-2xl p-5 shadow-sm print-card">
+                    <p class="text-slate-500 text-sm">Tỷ lệ tiết kiệm</p>
+                    <h3 id="reportSavingRate" class="text-xl font-bold text-purple-600 mt-2">0%</h3>
+                </div>
+
+                <div class="bg-white rounded-2xl p-5 shadow-sm print-card">
+                    <p class="text-slate-500 text-sm">Số giao dịch</p>
+                    <h3 id="reportTransactionCount" class="text-xl font-bold text-slate-800 mt-2">0</h3>
+                </div>
+
+                <div class="bg-white rounded-2xl p-5 shadow-sm print-card">
+                    <p class="text-slate-500 text-sm">Chi nhiều nhất</p>
+                    <h3 id="reportTopCategory" class="text-xl font-bold text-orange-600 mt-2">Không có</h3>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl p-6 shadow-sm mb-6 print-card">
+                <h3 class="text-xl font-bold text-slate-800 mb-3">Nhận xét báo cáo</h3>
+                <p id="reportSummaryText" class="text-slate-600 leading-relaxed whitespace-pre-line"></p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                <div class="bg-white rounded-2xl p-6 shadow-sm print-card">
+                    <h3 class="text-xl font-bold text-slate-800 mb-4">Cơ cấu chi tiêu</h3>
+                    <canvas id="reportCategoryChart"></canvas>
+                </div>
+
+                <div class="bg-white rounded-2xl p-6 shadow-sm print-card">
+                    <h3 class="text-xl font-bold text-slate-800 mb-4">Thu chi theo thời gian</h3>
+                    <canvas id="reportTrendChart"></canvas>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl p-6 shadow-sm mb-6 print-card">
+                <h3 class="text-xl font-bold text-slate-800 mb-4">Phân tích theo danh mục</h3>
+
+                <div class="overflow-x-auto">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Loại</th>
+                                <th>Danh mục</th>
+                                <th>Số giao dịch</th>
+                                <th>Tổng tiền</th>
+                                <th>Tỷ trọng</th>
+                            </tr>
+                        </thead>
+                        <tbody id="reportCategoryTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl p-6 shadow-sm print-card">
+                <h3 class="text-xl font-bold text-slate-800 mb-4">Tổng hợp theo tháng</h3>
+
+                <div class="overflow-x-auto">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Tháng</th>
+                                <th>Tổng thu</th>
+                                <th>Tổng chi</th>
+                                <th>Số dư</th>
+                                <th>Số giao dịch</th>
+                            </tr>
+                        </thead>
+                        <tbody id="reportMonthlyTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+```
+
+</div>
+
+<script src="./js/main.js"></script>
+
+</body>
+</html>

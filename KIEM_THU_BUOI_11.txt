@@ -1,0 +1,299 @@
+BÁO CÁO KIỂM THỬ VÀ HOÀN THIỆN SẢN PHẨM
+ỨNG DỤNG QUẢN LÝ TÀI CHÍNH CÁ NHÂN CÓ TRỢ LÝ AI
+
+1. Mục tiêu kiểm thử
+
+Buổi 11 tập trung kiểm thử, tối ưu giao diện và hoàn thiện sản phẩm demo. Mục tiêu chính là đảm bảo các chức năng đã xây dựng từ Buổi 5 đến Buổi 10 hoạt động ổn định, dữ liệu được xử lý đúng, giao diện dễ sử dụng và trợ lý AI có thể hỗ trợ người dùng nhập giao dịch bằng ngôn ngữ tự nhiên.
+
+2. Môi trường kiểm thử
+
+* Hệ điều hành: Windows
+* Trình duyệt: Google Chrome
+* Frontend: HTML, CSS, JavaScript, TailwindCSS
+* Backend: Python FastAPI
+* Cơ sở dữ liệu: SQLite
+* AI: Gemini API kết hợp cơ chế dự phòng rule-based
+* Công cụ kiểm thử API: Swagger UI và PowerShell
+* Công cụ xuất báo cáo: CSV, chức năng In/PDF của trình duyệt
+
+3. Các chức năng đã kiểm thử
+
+3.1. Chức năng đăng ký tài khoản
+
+Mục tiêu:
+Kiểm tra việc tạo tài khoản người dùng mới trên hệ thống.
+
+Dữ liệu kiểm thử:
+
+* Họ tên: Quý Bình
+* Email: [abcxyzk@gmail.com](mailto:abcxyzk@gmail.com)
+* Mật khẩu: 123456
+
+Kết quả mong đợi:
+
+* Hệ thống tạo tài khoản thành công.
+* Dữ liệu người dùng được lưu vào SQLite.
+* Nếu email đã tồn tại, hệ thống hiển thị thông báo lỗi.
+
+Kết quả thực tế:
+
+* Tài khoản được tạo thành công.
+* Hệ thống kiểm tra trùng email đúng.
+* Chức năng đạt yêu cầu.
+
+3.2. Chức năng đăng nhập
+
+Mục tiêu:
+Kiểm tra người dùng đăng nhập và nhận token xác thực.
+
+Dữ liệu kiểm thử:
+
+* Email đã đăng ký
+* Mật khẩu hợp lệ
+
+Kết quả mong đợi:
+
+* Đăng nhập thành công.
+* Backend trả về token.
+* Frontend lưu token vào localStorage.
+* Người dùng được chuyển đến trang Dashboard.
+
+Kết quả thực tế:
+
+* Đăng nhập thành công.
+* Token được lưu đúng.
+* Dashboard hiển thị thông tin người dùng.
+* Chức năng đạt yêu cầu.
+
+3.3. Chức năng quản lý ví tiền
+
+Mục tiêu:
+Kiểm tra việc thêm, xem và xóa ví tiền.
+
+Dữ liệu kiểm thử:
+
+* Tên ví: Ví tiền mặt
+* Số dư ban đầu: 500000
+* Tiền tệ: VND
+
+Kết quả mong đợi:
+
+* Ví tiền được tạo thành công.
+* Danh sách ví hiển thị dữ liệu từ Backend API.
+* Có thể xóa ví khi không cần sử dụng.
+
+Kết quả thực tế:
+
+* API ví tiền hoạt động ổn định.
+* Dữ liệu ví được lưu trong SQLite.
+* Giao diện hiển thị đúng danh sách ví.
+* Chức năng đạt yêu cầu.
+
+3.4. Chức năng quản lý giao dịch thủ công
+
+Mục tiêu:
+Kiểm tra việc thêm và xóa giao dịch bằng form nhập liệu.
+
+Dữ liệu kiểm thử:
+
+* Loại giao dịch: Chi
+* Danh mục: Ăn uống
+* Số tiền: 30000
+* Ghi chú: Ăn sáng
+
+Kết quả mong đợi:
+
+* Giao dịch được thêm vào bảng.
+* Tổng thu, tổng chi, số dư và tỷ lệ tiết kiệm được cập nhật.
+* Có thể xóa giao dịch khỏi danh sách.
+
+Kết quả thực tế:
+
+* Giao dịch được thêm thành công.
+* Các chỉ số tài chính cập nhật đúng.
+* Bảng giao dịch hiển thị rõ ràng.
+* Chức năng đạt yêu cầu.
+
+3.5. Chức năng biểu đồ tài chính
+
+Mục tiêu:
+Kiểm tra biểu đồ chi tiêu theo danh mục và biểu đồ xu hướng thu chi.
+
+Kết quả mong đợi:
+
+* Biểu đồ danh mục hiển thị tỷ trọng chi tiêu.
+* Biểu đồ thu chi phản ánh dữ liệu giao dịch.
+* Khi thêm hoặc xóa giao dịch, biểu đồ được cập nhật.
+
+Kết quả thực tế:
+
+* Biểu đồ hoạt động ổn định.
+* Dữ liệu hiển thị trực quan.
+* Chức năng đạt yêu cầu.
+
+3.6. Chức năng trợ lý AI thêm giao dịch bằng ngôn ngữ tự nhiên
+
+Mục tiêu:
+Kiểm tra khả năng xử lý ngôn ngữ tự nhiên của trợ lý AI.
+
+Dữ liệu kiểm thử:
+
+* “Hôm nay tôi ăn sáng hết 30000”
+* “Sáng ăn bánh mì 30k, trưa uống trà sữa 40k, tối nhận lương 5 triệu”
+
+Kết quả mong đợi:
+
+* AI nhận diện được số tiền.
+* AI xác định đúng loại giao dịch Thu hoặc Chi.
+* AI tự phân loại danh mục.
+* Với câu có nhiều giao dịch, hệ thống tự tách thành nhiều dòng trong bảng giao dịch.
+
+Kết quả thực tế:
+
+* Gemini API xử lý tốt câu nhập tự nhiên khi còn quota.
+* Khi Gemini hết quota, hệ thống tự chuyển sang rule-based fallback.
+* Câu có nhiều giao dịch được tách thành 3 dòng riêng biệt.
+* Chức năng đạt yêu cầu.
+
+3.7. Chức năng hỏi đáp với trợ lý AI
+
+Mục tiêu:
+Kiểm tra khả năng trả lời câu hỏi tài chính cá nhân.
+
+Dữ liệu kiểm thử:
+
+* “Tôi chi nhiều nhất vào đâu?”
+* “Tổng chi của tôi là bao nhiêu?”
+* “Số dư còn lại bao nhiêu?”
+
+Kết quả mong đợi:
+
+* AI trả lời dựa trên dữ liệu giao dịch hiện có.
+* Câu trả lời ngắn gọn, đúng trọng tâm.
+* Nếu Gemini không khả dụng, hệ thống vẫn có câu trả lời dự phòng.
+
+Kết quả thực tế:
+
+* AI trả lời đúng các câu hỏi cơ bản.
+* Cơ chế fallback giúp hệ thống không bị gián đoạn.
+* Chức năng đạt yêu cầu.
+
+3.8. Chức năng báo cáo tài chính
+
+Mục tiêu:
+Kiểm tra module báo cáo tài chính, xuất CSV và in PDF.
+
+Kết quả mong đợi:
+
+* Báo cáo hiển thị tổng thu, tổng chi, số dư, tỷ lệ tiết kiệm.
+* Có thống kê theo danh mục và theo tháng.
+* Có biểu đồ báo cáo.
+* Có thể xuất file CSV.
+* Có thể in hoặc lưu PDF.
+
+Kết quả thực tế:
+
+* Báo cáo hiển thị đúng dữ liệu.
+* File CSV mở được bằng Excel.
+* Chức năng In/PDF hoạt động.
+* Cột ngày trong Excel có thể hiện dấu “########” nếu cột quá hẹp, chỉ cần kéo rộng cột là hiển thị bình thường.
+* Chức năng đạt yêu cầu.
+
+4. Các lỗi phát hiện và cách xử lý
+
+4.1. Lỗi thiếu token đăng nhập
+
+Mô tả:
+Khi gọi API bằng PowerShell hoặc Swagger, hệ thống trả về lỗi thiếu token.
+
+Nguyên nhân:
+Người dùng chưa truyền header authorization.
+
+Cách xử lý:
+Thêm header:
+Bearer <token>
+
+Kết quả:
+API hoạt động bình thường sau khi truyền token hợp lệ.
+
+4.2. Lỗi token hết phiên hoặc không hợp lệ
+
+Mô tả:
+API trả về lỗi token không hợp lệ hoặc đã hết phiên.
+
+Nguyên nhân:
+Token cũ, token đã bị xóa hoặc người dùng chưa đăng nhập lại.
+
+Cách xử lý:
+Đăng nhập lại để lấy token mới.
+
+Kết quả:
+API hoạt động lại bình thường.
+
+4.3. Lỗi Gemini hết quota
+
+Mô tả:
+Gemini API trả về lỗi 429 RESOURCE_EXHAUSTED.
+
+Nguyên nhân:
+Tài khoản sử dụng hết giới hạn request miễn phí của Gemini API.
+
+Cách xử lý:
+Xây dựng cơ chế rule-based fallback để hệ thống vẫn xử lý giao dịch khi Gemini không khả dụng.
+
+Kết quả:
+Hệ thống vẫn hoạt động, vẫn tách được nhiều giao dịch trong một câu.
+
+4.4. Lỗi hiển thị tiếng Việt trong PowerShell
+
+Mô tả:
+Một số chữ tiếng Việt bị lỗi mã hóa khi hiển thị trong PowerShell.
+
+Nguyên nhân:
+PowerShell hiển thị UTF-8 chưa đúng.
+
+Cách xử lý:
+Kiểm tra trên trình duyệt hoặc sử dụng dữ liệu không dấu khi test terminal.
+
+Kết quả:
+Dữ liệu xử lý trong hệ thống vẫn đúng, chỉ lỗi hiển thị ở terminal.
+
+5. Đánh giá kết quả sau kiểm thử
+
+Sau quá trình kiểm thử, hệ thống đã đáp ứng được các yêu cầu chính của sản phẩm demo:
+
+* Có giao diện web quản lý tài chính cá nhân.
+* Có chức năng đăng ký và đăng nhập.
+* Có backend FastAPI và cơ sở dữ liệu SQLite.
+* Có chức năng quản lý ví tiền.
+* Có chức năng thêm, xem và xóa giao dịch.
+* Có biểu đồ trực quan hóa dữ liệu.
+* Có trợ lý AI tích hợp Gemini API.
+* Có cơ chế fallback khi Gemini hết quota.
+* Có khả năng xử lý một câu chứa nhiều giao dịch.
+* Có module báo cáo tài chính, xuất CSV và in PDF.
+
+6. Hạn chế còn tồn tại
+
+* Dữ liệu giao dịch hiện đang lưu ở localStorage phía frontend, chưa lưu toàn bộ vào database.
+* Gemini API bản miễn phí có giới hạn quota nên có thể bị gián đoạn khi gọi nhiều lần.
+* File CSV khi mở bằng Excel có thể cần kéo rộng cột ngày để hiển thị đầy đủ.
+* Hệ thống hiện mới phù hợp cho demo cá nhân, chưa triển khai thực tế trên server production.
+* Chưa có phân quyền nâng cao hoặc mã hóa nâng cao cho toàn bộ dữ liệu người dùng.
+
+7. Hướng phát triển tiếp theo
+
+Trong tương lai, hệ thống có thể được phát triển thêm các chức năng sau:
+
+* Lưu toàn bộ giao dịch vào SQLite thay vì localStorage.
+* Thêm chức năng chỉnh sửa giao dịch.
+* Thêm ngân sách theo từng danh mục.
+* Thêm cảnh báo khi chi tiêu vượt ngân sách.
+* Tích hợp biểu đồ nâng cao theo tuần, tháng và năm.
+* Tối ưu Gemini API bằng caching để giảm số lần gọi API.
+* Triển khai hệ thống lên hosting hoặc server thật.
+* Bổ sung xác thực bảo mật mạnh hơn.
+
+8. Kết luận
+
+Sau khi kiểm thử và hoàn thiện, ứng dụng quản lý tài chính cá nhân có trợ lý AI đã hoạt động ổn định ở mức demo chuyên đề. Hệ thống cho phép người dùng quản lý ví tiền, ghi nhận giao dịch, xem biểu đồ, tạo báo cáo tài chính và sử dụng trợ lý AI để nhập giao dịch bằng ngôn ngữ tự nhiên. Việc tích hợp Gemini API giúp sản phẩm có khả năng xử lý ngôn ngữ tự nhiên tốt hơn, trong khi cơ chế rule-based fallback giúp hệ thống vẫn hoạt động khi API bên ngoài bị giới hạn. Sản phẩm đáp ứng được mục tiêu của chuyên đề và có khả năng mở rộng trong tương lai.

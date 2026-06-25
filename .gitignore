@@ -1,0 +1,25 @@
+@"
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Database local
+backend/finance_ai.db
+backend/*.db
+
+# Environment / secrets
+.env
+*.env
+
+# VSCode local settings
+.vscode/
+
+# Exported reports
+*.csv
+*.pdf
+
+# System files
+.DS_Store
+Thumbs.db

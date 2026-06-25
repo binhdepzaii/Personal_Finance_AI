@@ -1,0 +1,52 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Đăng nhập - Personal Finance AI</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="login" class="auth-bg">
+    <main class="min-h-screen flex items-center justify-center px-6 py-12">
+        <div class="glass-card rounded-[28px] p-8 w-full max-w-md">
+            <div class="text-center mb-8">
+                <div class="text-5xl mb-3">💰</div>
+                <h1 class="text-3xl font-black text-slate-900">Đăng nhập</h1>
+                <p class="text-slate-500 mt-2">
+                    Truy cập hệ thống quản lý tài chính cá nhân
+                </p>
+            </div>
+
+            <form id="loginForm" class="space-y-5">
+                <div>
+                    <label class="font-bold text-slate-700">Email</label>
+                    <input id="loginEmail" type="email" class="input-control mt-2" placeholder="Nhập email">
+                </div>
+
+                <div>
+                    <label class="font-bold text-slate-700">Mật khẩu</label>
+                    <input id="loginPassword" type="password" class="input-control mt-2" placeholder="Nhập mật khẩu">
+                </div>
+
+                <button class="btn-primary w-full" type="submit">
+                    Đăng nhập
+                </button>
+            </form>
+
+            <p class="text-center text-slate-600 mt-6">
+                Chưa có tài khoản?
+                <a href="register.html" class="text-blue-600 font-bold">Đăng ký</a>
+            </p>
+
+            <p class="text-center mt-4">
+                <a href="index.html" class="text-slate-500 hover:text-blue-600">← Về trang chủ</a>
+            </p>
+        </div>
+    </main>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

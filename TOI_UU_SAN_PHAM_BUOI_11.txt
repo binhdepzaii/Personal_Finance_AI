@@ -1,0 +1,330 @@
+TỐI ƯU SẢN PHẨM VÀ KỊCH BẢN DEMO CUỐI
+ỨNG DỤNG QUẢN LÝ TÀI CHÍNH CÁ NHÂN CÓ TRỢ LÝ AI
+
+1. Trạng thái sản phẩm sau khi hoàn thiện
+
+Sản phẩm hiện đã hoàn thiện các chức năng chính:
+
+* Giao diện web quản lý tài chính cá nhân.
+* Đăng ký tài khoản.
+* Đăng nhập bằng email và mật khẩu.
+* Xác thực người dùng bằng token.
+* Quản lý ví tiền thông qua Backend API.
+* Thêm, xem và xóa giao dịch tài chính.
+* Tự động tính tổng thu, tổng chi, số dư và tỷ lệ tiết kiệm.
+* Hiển thị biểu đồ chi tiêu theo danh mục.
+* Hiển thị biểu đồ xu hướng thu chi.
+* Tích hợp trợ lý AI sử dụng Gemini API.
+* AI hiểu câu nhập bằng ngôn ngữ tự nhiên.
+* AI tự bóc tách số tiền, loại giao dịch, danh mục và ghi chú.
+* AI có thể tách nhiều giao dịch trong một câu.
+* Có cơ chế rule-based fallback khi Gemini hết quota.
+* Có module báo cáo tài chính.
+* Có chức năng xuất CSV.
+* Có chức năng In/PDF bằng trình duyệt.
+
+2. Checklist trước khi chạy demo
+
+Trước khi báo cáo hoặc chạy demo, cần kiểm tra các bước sau:
+
+Bước 1: Kiểm tra thư mục dự án
+
+Đảm bảo cấu trúc dự án có dạng:
+
+Personal_Finance_AI
+├── backend
+│   ├── app.py
+│   ├── ai_service.py
+│   ├── database.py
+│   └── finance_ai.db
+├── frontend
+│   ├── css
+│   │   └── style.css
+│   ├── js
+│   │   └── main.js
+│   ├── index.html
+│   ├── login.html
+│   ├── register.html
+│   └── dashboard.html
+├── requirements.txt
+├── README.txt
+├── KIEM_THU_BUOI_11.txt
+└── TOI_UU_SAN_PHAM_BUOI_11.txt
+
+Bước 2: Kiểm tra thư viện Python
+
+Mở terminal tại thư mục gốc Personal_Finance_AI và chạy:
+
+py -m pip install -r requirements.txt
+
+Bước 3: Chạy backend
+
+Mở terminal tại thư mục backend và chạy:
+
+cd C:\Users\abcxy\OneDrive\Desktop\Personal_Finance_AI\backend
+
+Gắn API key Gemini:
+
+$env:GEMINI_API_KEY="API_KEY_GEMINI_CUA_BAN"
+
+Chạy server:
+
+py -m uvicorn app:app --reload
+
+Khi terminal hiện:
+
+Uvicorn running on http://127.0.0.1:8000
+Application startup complete.
+
+nghĩa là backend đã chạy thành công.
+
+Bước 4: Kiểm tra Backend API
+
+Mở trình duyệt:
+
+http://127.0.0.1:8000/docs
+
+Kiểm tra các nhóm API:
+
+* /api/auth/register
+* /api/auth/login
+* /api/auth/me
+* /api/wallets
+* /api/ai/parse-transaction
+* /api/ai/analyze
+* /api/ai/chat
+
+Bước 5: Chạy frontend
+
+Mở file frontend bằng Live Server:
+
+frontend/index.html
+
+hoặc mở trực tiếp:
+
+http://127.0.0.1:5500/frontend/index.html
+
+Sau đó vào đăng nhập:
+
+http://127.0.0.1:5500/frontend/login.html
+
+3. Kịch bản demo sản phẩm
+
+3.1. Demo trang chủ
+
+Mở trang chủ để giới thiệu tổng quan hệ thống.
+
+Nội dung trình bày:
+
+“Đây là ứng dụng quản lý tài chính cá nhân có tích hợp trợ lý AI. Hệ thống giúp người dùng theo dõi thu chi, quản lý ví tiền, xem biểu đồ, tạo báo cáo tài chính và nhập giao dịch bằng ngôn ngữ tự nhiên.”
+
+3.2. Demo đăng ký tài khoản
+
+Chuyển sang trang đăng ký.
+
+Dữ liệu demo:
+
+Họ tên: Quý Bình
+Email: [abcxyzk@gmail.com](mailto:abcxyzk@gmail.com)
+Mật khẩu: 123456
+
+Nội dung trình bày:
+
+“Người dùng có thể tạo tài khoản mới. Dữ liệu tài khoản được gửi về backend FastAPI và lưu trong cơ sở dữ liệu SQLite.”
+
+3.3. Demo đăng nhập
+
+Đăng nhập bằng tài khoản vừa tạo.
+
+Nội dung trình bày:
+
+“Khi đăng nhập thành công, backend trả về token xác thực. Frontend lưu token này để gọi các API cần đăng nhập.”
+
+3.4. Demo tổng quan tài chính
+
+Vào Dashboard, chọn mục Tổng quan.
+
+Nội dung trình bày:
+
+“Tại màn hình tổng quan, hệ thống hiển thị các chỉ số chính gồm tổng thu, tổng chi, số dư và tỷ lệ tiết kiệm. Các chỉ số này được tự động tính từ danh sách giao dịch.”
+
+3.5. Demo quản lý ví tiền
+
+Chọn mục Ví tiền.
+
+Tạo ví mới:
+
+Tên ví: Ví tiền mặt
+Số dư: 500000
+Tiền tệ: VND
+
+Nội dung trình bày:
+
+“Chức năng ví tiền được kết nối với backend. Khi tạo ví, dữ liệu được lưu vào SQLite thông qua API.”
+
+3.6. Demo thêm giao dịch thủ công
+
+Chọn mục Giao dịch.
+
+Thêm giao dịch:
+
+Ngày: ngày hiện tại
+Loại: Chi
+Danh mục: Ăn uống
+Số tiền: 30000
+Ghi chú: Ăn sáng
+
+Nội dung trình bày:
+
+“Người dùng có thể nhập giao dịch thủ công bằng form. Sau khi thêm, bảng giao dịch và các chỉ số tổng quan được cập nhật.”
+
+3.7. Demo biểu đồ
+
+Chọn mục Biểu đồ.
+
+Nội dung trình bày:
+
+“Hệ thống sử dụng Chart.js để trực quan hóa dữ liệu. Biểu đồ tròn thể hiện cơ cấu chi tiêu theo danh mục. Biểu đồ đường thể hiện xu hướng thu chi theo thời gian.”
+
+3.8. Demo trợ lý AI nhập một giao dịch
+
+Chọn mục Trợ lý AI.
+
+Nhập câu:
+
+Hôm nay tôi ăn sáng hết 30000
+
+Kết quả mong đợi:
+
+* Loại giao dịch: Chi
+* Danh mục: Ăn uống
+* Số tiền: 30000
+* Giao dịch được thêm vào bảng
+
+Nội dung trình bày:
+
+“Người dùng không cần nhập từng ô thủ công. Có thể nhập câu tự nhiên, hệ thống gửi câu này tới AI Backend. Gemini hoặc fallback rule-based sẽ phân tích và tự động tạo giao dịch.”
+
+3.9. Demo trợ lý AI nhập nhiều giao dịch trong một câu
+
+Nhập câu:
+
+Sáng ăn bánh mì 30k, trưa uống trà sữa 40k, tối nhận lương 5 triệu
+
+Kết quả mong đợi:
+
+Hệ thống tự thêm 3 dòng:
+
+1. Chi - Ăn uống - 30000 - Sáng ăn bánh mì 30k
+2. Chi - Ăn uống - 40000 - trưa uống trà sữa 40k
+3. Thu - Lương - 5000000 - tối nhận lương 5 triệu
+
+Nội dung trình bày:
+
+“Ở bước hoàn thiện AI, hệ thống có khả năng tách nhiều giao dịch trong một câu nhập. Đây là điểm nổi bật của sản phẩm, giúp thao tác nhập liệu nhanh và tự nhiên hơn.”
+
+3.10. Demo hỏi đáp AI
+
+Nhập câu hỏi:
+
+Tôi chi nhiều nhất vào đâu?
+
+Hoặc:
+
+Tổng chi của tôi là bao nhiêu?
+
+Nội dung trình bày:
+
+“Trợ lý AI không chỉ nhập giao dịch mà còn có thể phân tích dữ liệu hiện có và trả lời các câu hỏi tài chính cá nhân.”
+
+3.11. Demo báo cáo tài chính
+
+Chọn mục Báo cáo.
+
+Thực hiện:
+
+* Chọn Tất cả dữ liệu.
+* Bấm Tạo báo cáo.
+* Xem tổng thu, tổng chi, số dư, tỷ lệ tiết kiệm.
+* Xem bảng phân tích danh mục.
+* Xem tổng hợp theo tháng.
+* Bấm Xuất CSV.
+* Bấm In/PDF.
+
+Nội dung trình bày:
+
+“Module báo cáo giúp tổng hợp dữ liệu tài chính. Người dùng có thể xem thống kê, biểu đồ, xuất CSV để mở bằng Excel hoặc lưu báo cáo PDF bằng chức năng in của trình duyệt.”
+
+4. Các câu test AI nên dùng khi báo cáo
+
+Câu test một giao dịch:
+
+* Hôm nay tôi ăn sáng hết 30000
+* Tôi đổ xăng 50000
+* Tối nay đi xem phim hết 120k
+* Tôi nhận lương 6500000
+* Mẹ cho tôi 500k
+
+Câu test nhiều giao dịch:
+
+* Sáng ăn bánh mì 30k, trưa uống trà sữa 40k, tối nhận lương 5 triệu
+* Hôm nay đi grab 60k, mua sách 120k, nhận tiền làm thêm 700k
+* Trưa ăn cơm 35k, chiều uống cà phê 25k, tối xem phim 100k
+* Đổ xăng 70k, mua áo 200k, được cho 500k
+
+Câu hỏi cho AI:
+
+* Tôi chi nhiều nhất vào đâu?
+* Tổng chi của tôi là bao nhiêu?
+* Tổng thu hiện tại là bao nhiêu?
+* Số dư còn lại bao nhiêu?
+* Tỷ lệ tiết kiệm của tôi thế nào?
+* Tình hình tài chính của tôi có ổn không?
+
+5. Những điểm mạnh của sản phẩm
+
+* Giao diện rõ ràng, dễ sử dụng.
+* Có frontend, backend và database đầy đủ.
+* Có xác thực người dùng bằng token.
+* Có khả năng quản lý ví tiền.
+* Có khả năng quản lý giao dịch.
+* Có biểu đồ tài chính trực quan.
+* Có trợ lý AI xử lý ngôn ngữ tự nhiên.
+* Có tích hợp Gemini API thật.
+* Có fallback rule-based khi Gemini hết quota.
+* Có thể tách nhiều giao dịch trong một câu.
+* Có báo cáo tài chính, xuất CSV và In/PDF.
+* Phù hợp làm sản phẩm demo chuyên đề.
+
+6. Những lưu ý khi demo
+
+* Luôn chạy backend trước khi mở frontend.
+* Không tắt terminal backend trong lúc demo.
+* Nếu API báo thiếu token, cần đăng nhập lại.
+* Nếu Gemini báo hết quota, hệ thống vẫn hoạt động bằng rule-based fallback.
+* Nếu Excel hiển thị ####### ở cột ngày, chỉ cần kéo rộng cột ngày.
+* Nếu frontend không cập nhật giao diện, nhấn Ctrl + F5 để tải lại.
+* Không nên để lộ Gemini API key khi quay màn hình hoặc chụp ảnh báo cáo.
+
+7. Việc nên làm trước khi nộp bài
+
+* Backup thư mục dự án thành Personal_Finance_AI_FINAL.
+* Xóa hoặc thay Gemini API key đã từng bị lộ.
+* Kiểm tra lại login, dashboard, AI và báo cáo.
+* Chụp ảnh các màn hình chính để đưa vào báo cáo.
+* Ghi rõ trong báo cáo rằng dữ liệu giao dịch hiện lưu ở localStorage, còn ví tiền và tài khoản lưu ở SQLite.
+* Ghi rõ Gemini API có quota miễn phí nên hệ thống có fallback rule-based.
+
+8. Kịch bản thuyết trình ngắn
+
+“Kính thưa thầy cô, đề tài của em là ứng dụng quản lý tài chính cá nhân có trợ lý AI. Ứng dụng được xây dựng với frontend HTML, CSS, JavaScript, backend FastAPI và cơ sở dữ liệu SQLite.
+
+Hệ thống cho phép người dùng đăng ký, đăng nhập, quản lý ví tiền, thêm giao dịch thu chi, xem biểu đồ và tạo báo cáo tài chính. Điểm nổi bật của sản phẩm là trợ lý AI được tích hợp Gemini API để xử lý ngôn ngữ tự nhiên.
+
+Người dùng có thể nhập câu như ‘Hôm nay tôi ăn sáng hết 30000’, hệ thống sẽ tự nhận diện đây là khoản chi ăn uống với số tiền 30.000 đồng. Ngoài ra, hệ thống còn có thể xử lý câu chứa nhiều giao dịch như ‘Sáng ăn bánh mì 30k, trưa uống trà sữa 40k, tối nhận lương 5 triệu’ và tự động tách thành ba giao dịch riêng biệt.
+
+Bên cạnh Gemini API, hệ thống còn có cơ chế rule-based fallback để đảm bảo vẫn hoạt động khi API bên ngoài hết quota hoặc không khả dụng. Cuối cùng, hệ thống có module báo cáo cho phép thống kê tổng thu, tổng chi, số dư, tỷ lệ tiết kiệm, xuất CSV và in PDF.”
+
+9. Kết luận tối ưu sản phẩm
+
+Sau khi tối ưu và kiểm thử, sản phẩm đã đạt trạng thái ổn định cho demo chuyên đề. Các chức năng chính đều hoạt động đúng, giao diện dễ sử dụng, AI xử lý tốt câu nhập tự nhiên và báo cáo tài chính có thể xuất ra file. Sản phẩm đáp ứng được mục tiêu đề tài và có khả năng mở rộng trong tương lai.
