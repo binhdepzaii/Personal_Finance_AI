@@ -1,4 +1,4 @@
-const API_BASE_URL = "http://127.0.0.1:8000";
+﻿const API_BASE_URL = window.location.hostname === "127.0.0.1" || window.location.hostname === "localhost" ? "http://127.0.0.1:8000" : "https://personal-finance-ai-backend.onrender.com";
 const STORAGE_KEY = "personal_finance_transactions";
 const USER_KEY = "personal_finance_user";
 const TOKEN_KEY = "personal_finance_token";
@@ -14,49 +14,49 @@ let aiAnalysisCache = {
 };
 
 const expenseCategories = [
-    "Ăn uống",
-    "Di chuyển",
-    "Nhà ở",
-    "Học tập",
-    "Giải trí",
-    "Mua sắm",
-    "Y tế",
-    "Gia đình",
-    "Khác"
+    "Ä‚n uá»‘ng",
+    "Di chuyá»ƒn",
+    "NhÃ  á»Ÿ",
+    "Há»c táº­p",
+    "Giáº£i trÃ­",
+    "Mua sáº¯m",
+    "Y táº¿",
+    "Gia Ä‘Ã¬nh",
+    "KhÃ¡c"
 ];
 
 const incomeCategories = [
-    "Lương",
-    "Thưởng",
-    "Làm thêm",
-    "Được cho",
-    "Khác"
+    "LÆ°Æ¡ng",
+    "ThÆ°á»Ÿng",
+    "LÃ m thÃªm",
+    "ÄÆ°á»£c cho",
+    "KhÃ¡c"
 ];
 
 const sectionInfo = {
     "overview-section": {
-        title: "Tổng quan tài chính",
-        subtitle: "Theo dõi nhanh tình hình thu chi, số dư và tỷ lệ tiết kiệm"
+        title: "Tá»•ng quan tÃ i chÃ­nh",
+        subtitle: "Theo dÃµi nhanh tÃ¬nh hÃ¬nh thu chi, sá»‘ dÆ° vÃ  tá»· lá»‡ tiáº¿t kiá»‡m"
     },
     "wallet-section": {
-        title: "Quản lý ví tiền",
-        subtitle: "Tạo, xem và xóa ví tiền từ cơ sở dữ liệu SQLite thông qua Backend API"
+        title: "Quáº£n lÃ½ vÃ­ tiá»n",
+        subtitle: "Táº¡o, xem vÃ  xÃ³a vÃ­ tiá»n tá»« cÆ¡ sá»Ÿ dá»¯ liá»‡u SQLite thÃ´ng qua Backend API"
     },
     "transaction-section": {
-        title: "Quản lý giao dịch",
-        subtitle: "Ghi nhận các khoản thu chi và theo dõi lịch sử giao dịch"
+        title: "Quáº£n lÃ½ giao dá»‹ch",
+        subtitle: "Ghi nháº­n cÃ¡c khoáº£n thu chi vÃ  theo dÃµi lá»‹ch sá»­ giao dá»‹ch"
     },
     "chart-section": {
-        title: "Biểu đồ tài chính",
-        subtitle: "Trực quan hóa chi tiêu theo danh mục và biến động thu chi theo ngày"
+        title: "Biá»ƒu Ä‘á»“ tÃ i chÃ­nh",
+        subtitle: "Trá»±c quan hÃ³a chi tiÃªu theo danh má»¥c vÃ  biáº¿n Ä‘á»™ng thu chi theo ngÃ y"
     },
     "assistant-section": {
-        title: "Trợ lý AI tài chính",
-        subtitle: "Phân tích tài chính cá nhân và xử lý giao dịch bằng ngôn ngữ tự nhiên"
+        title: "Trá»£ lÃ½ AI tÃ i chÃ­nh",
+        subtitle: "PhÃ¢n tÃ­ch tÃ i chÃ­nh cÃ¡ nhÃ¢n vÃ  xá»­ lÃ½ giao dá»‹ch báº±ng ngÃ´n ngá»¯ tá»± nhiÃªn"
     },
     "report-section": {
-        title: "Báo cáo tài chính",
-        subtitle: "Tổng hợp dữ liệu thu chi, biểu đồ, thống kê và xuất báo cáo"
+        title: "BÃ¡o cÃ¡o tÃ i chÃ­nh",
+        subtitle: "Tá»•ng há»£p dá»¯ liá»‡u thu chi, biá»ƒu Ä‘á»“, thá»‘ng kÃª vÃ  xuáº¥t bÃ¡o cÃ¡o"
     }
 };
 
@@ -113,7 +113,7 @@ async function apiRequest(endpoint, options = {}) {
     }
 
     if (!response.ok) {
-        const errorMessage = data.detail || data.message || `Lỗi API ${response.status}: ${response.statusText}`;
+        const errorMessage = data.detail || data.message || `Lá»—i API ${response.status}: ${response.statusText}`;
         throw new Error(errorMessage);
     }
 
@@ -121,7 +121,7 @@ async function apiRequest(endpoint, options = {}) {
 }
 
 function formatMoney(value) {
-    return Number(value || 0).toLocaleString("vi-VN") + " VNĐ";
+    return Number(value || 0).toLocaleString("vi-VN") + " VNÄ";
 }
 
 function getToday() {
@@ -177,33 +177,33 @@ function seedDemoData() {
             id: Date.now() + 1,
             date: getToday(),
             type: "Thu",
-            category: "Lương",
+            category: "LÆ°Æ¡ng",
             amount: 6500000,
-            note: "Lương tháng"
+            note: "LÆ°Æ¡ng thÃ¡ng"
         },
         {
             id: Date.now() + 2,
             date: getToday(),
             type: "Chi",
-            category: "Ăn uống",
+            category: "Ä‚n uá»‘ng",
             amount: 120000,
-            note: "Ăn trưa và cà phê"
+            note: "Ä‚n trÆ°a vÃ  cÃ  phÃª"
         },
         {
             id: Date.now() + 3,
             date: getToday(),
             type: "Chi",
-            category: "Di chuyển",
+            category: "Di chuyá»ƒn",
             amount: 70000,
-            note: "Xăng xe"
+            note: "XÄƒng xe"
         },
         {
             id: Date.now() + 4,
             date: getToday(),
             type: "Chi",
-            category: "Giải trí",
+            category: "Giáº£i trÃ­",
             amount: 250000,
-            note: "Xem phim cuối tuần"
+            note: "Xem phim cuá»‘i tuáº§n"
         }
     ];
 
@@ -273,7 +273,7 @@ async function handleRegister(event) {
     const password = document.getElementById("registerPassword").value.trim();
 
     if (!name || !email || !password) {
-        alert("Vui lòng nhập đầy đủ thông tin.");
+        alert("Vui lÃ²ng nháº­p Ä‘áº§y Ä‘á»§ thÃ´ng tin.");
         return;
     }
 
@@ -287,7 +287,7 @@ async function handleRegister(event) {
             }
         });
 
-        alert("Đăng ký tài khoản thành công. Chuyển sang trang đăng nhập.");
+        alert("ÄÄƒng kÃ½ tÃ i khoáº£n thÃ nh cÃ´ng. Chuyá»ƒn sang trang Ä‘Äƒng nháº­p.");
         window.location.href = "./login.html";
     } catch (error) {
         alert(error.message);
@@ -300,7 +300,7 @@ async function handleLogin(event) {
     const password = document.getElementById("loginPassword").value.trim();
 
     if (!email || !password) {
-        alert("Vui lòng nhập email và mật khẩu.");
+        alert("Vui lÃ²ng nháº­p email vÃ  máº­t kháº©u.");
         return;
     }
 
@@ -330,7 +330,7 @@ async function logout() {
             });
         }
     } catch {
-        // Bỏ qua lỗi khi logout
+        // Bá» qua lá»—i khi logout
     }
     clearAuth();
     window.location.href = "./login.html";
@@ -341,7 +341,7 @@ async function loadCurrentUser() {
     const userEmail = document.getElementById("userEmail");
     
     if (!getToken()) {
-        alert("Bạn cần đăng nhập để truy cập Dashboard.");
+        alert("Báº¡n cáº§n Ä‘Äƒng nháº­p Ä‘á»ƒ truy cáº­p Dashboard.");
         window.location.href = "./login.html";
         return null;
     }
@@ -354,12 +354,12 @@ async function loadCurrentUser() {
         const user = result.user;
         localStorage.setItem(USER_KEY, JSON.stringify(user));
 
-        if (userName) userName.textContent = user.full_name || "Người dùng";
+        if (userName) userName.textContent = user.full_name || "NgÆ°á»i dÃ¹ng";
         if (userEmail) userEmail.textContent = user.email || "";
 
         return user;
     } catch (error) {
-        alert("Phiên đăng nhập không hợp lệ. Vui lòng đăng nhập lại.");
+        alert("PhiÃªn Ä‘Äƒng nháº­p khÃ´ng há»£p lá»‡. Vui lÃ²ng Ä‘Äƒng nháº­p láº¡i.");
         clearAuth();
         window.location.href = "./login.html";
         return null;
@@ -393,7 +393,7 @@ function handleAddTransaction(event) {
     const note = document.getElementById("transactionNote").value.trim();
 
     if (!date || !type || !category || amount <= 0) {
-        alert("Vui lòng nhập đầy đủ thông tin và số tiền phải lớn hơn 0.");
+        alert("Vui lÃ²ng nháº­p Ä‘áº§y Ä‘á»§ thÃ´ng tin vÃ  sá»‘ tiá»n pháº£i lá»›n hÆ¡n 0.");
         return;
     }
 
@@ -419,7 +419,7 @@ function handleAddTransaction(event) {
     updateCategoryOptions();
     renderDashboard();
 
-    setAIAnalysisText("Dữ liệu giao dịch vừa thay đổi. Mở mục Tổng quan hoặc Trợ lý AI để hệ thống phân tích lại khi cần.");
+    setAIAnalysisText("Dá»¯ liá»‡u giao dá»‹ch vá»«a thay Ä‘á»•i. Má»Ÿ má»¥c Tá»•ng quan hoáº·c Trá»£ lÃ½ AI Ä‘á»ƒ há»‡ thá»‘ng phÃ¢n tÃ­ch láº¡i khi cáº§n.");
 }
 
 function deleteTransaction(id) {
@@ -427,7 +427,7 @@ function deleteTransaction(id) {
     saveTransactions(data);
     invalidateAIAnalysisCache();
     renderDashboard();
-    setAIAnalysisText("Dữ liệu giao dịch vừa thay đổi. Mở mục Tổng quan hoặc Trợ lý AI để hệ thống phân tích lại khi cần.");
+    setAIAnalysisText("Dá»¯ liá»‡u giao dá»‹ch vá»«a thay Ä‘á»•i. Má»Ÿ má»¥c Tá»•ng quan hoáº·c Trá»£ lÃ½ AI Ä‘á»ƒ há»‡ thá»‘ng phÃ¢n tÃ­ch láº¡i khi cáº§n.");
 }
 
 function calculateSummary(data) {
@@ -468,7 +468,7 @@ function renderTransactionTable(data) {
         tbody.innerHTML = `
             <tr>
                 <td colspan="6" class="text-center text-slate-500 py-8">
-                    Chưa có giao dịch nào.
+                    ChÆ°a cÃ³ giao dá»‹ch nÃ o.
                 </td>
             </tr>
         `;
@@ -491,10 +491,10 @@ function renderTransactionTable(data) {
             <td class="font-bold ${item.type === "Thu" ? "text-green-600" : "text-red-600"}">
                 ${item.type === "Thu" ? "+" : "-"}${formatMoney(item.amount)}
             </td>
-            <td>${escapeHTML(item.note || "Không có ghi chú")}</td>
+            <td>${escapeHTML(item.note || "KhÃ´ng cÃ³ ghi chÃº")}</td>
             <td>
                 <button class="btn-danger" onclick="deleteTransaction(${item.id})">
-                    Xóa
+                    XÃ³a
                 </button>
             </td>
         `;
@@ -529,7 +529,7 @@ function groupByDate(data) {
 function groupByMonth(data) {
     const result = {};
     data.forEach(item => {
-        const month = String(item.date || "").slice(0, 7) || "Không rõ";
+        const month = String(item.date || "").slice(0, 7) || "KhÃ´ng rÃµ";
 
         if (!result[month]) {
             result[month] = {
@@ -562,7 +562,7 @@ function renderCharts(data) {
     categoryChart = new Chart(categoryCanvas, {
         type: "doughnut",
         data: {
-            labels: categoryLabels.length ? categoryLabels : ["Chưa có dữ liệu"],
+            labels: categoryLabels.length ? categoryLabels : ["ChÆ°a cÃ³ dá»¯ liá»‡u"],
             datasets: [{
                 data: categoryValues.length ? categoryValues : [1],
                 backgroundColor: [
@@ -649,14 +649,14 @@ async function loadWallets() {
         const wallets = result.wallets || [];
 
         if (walletStatus) {
-            walletStatus.textContent = "Đã tải dữ liệu ví từ Backend API thành công.";
+            walletStatus.textContent = "ÄÃ£ táº£i dá»¯ liá»‡u vÃ­ tá»« Backend API thÃ nh cÃ´ng.";
         }
 
         if (wallets.length === 0) {
             tbody.innerHTML = `
                 <tr>
                     <td colspan="6" class="text-center text-slate-500 py-8">
-                        Chưa có ví nào.
+                        ChÆ°a cÃ³ vÃ­ nÃ o.
                     </td>
                 </tr>
             `;
@@ -676,7 +676,7 @@ async function loadWallets() {
                 <td>${escapeHTML(wallet.created_at || "")}</td>
                 <td>
                     <button class="btn-danger" onclick="deleteWallet(${wallet.id})">
-                        Xóa
+                        XÃ³a
                     </button>
                 </td>
             `;
@@ -687,7 +687,7 @@ async function loadWallets() {
         tbody.innerHTML = `
             <tr>
                 <td colspan="6" class="text-center text-red-500 py-8">
-                    Không thể tải danh sách ví. ${escapeHTML(error.message)}
+                    KhÃ´ng thá»ƒ táº£i danh sÃ¡ch vÃ­. ${escapeHTML(error.message)}
                 </td>
             </tr>
         `;
@@ -701,7 +701,7 @@ async function handleWalletForm(event) {
     const walletCurrency = document.getElementById("walletCurrency").value;
 
     if (!walletName) {
-        alert("Tên ví không được để trống.");
+        alert("TÃªn vÃ­ khÃ´ng Ä‘Æ°á»£c Ä‘á»ƒ trá»‘ng.");
         return;
     }
 
@@ -715,7 +715,7 @@ async function handleWalletForm(event) {
             }
         });
 
-        alert("Tạo ví thành công.");
+        alert("Táº¡o vÃ­ thÃ nh cÃ´ng.");
         event.target.reset();
         await loadWallets();
     } catch (error) {
@@ -724,7 +724,7 @@ async function handleWalletForm(event) {
 }
 
 async function deleteWallet(walletId) {
-    const confirmDelete = confirm("Bạn có chắc muốn xóa ví này không?");
+    const confirmDelete = confirm("Báº¡n cÃ³ cháº¯c muá»‘n xÃ³a vÃ­ nÃ y khÃ´ng?");
     if (!confirmDelete) return;
 
     try {
@@ -732,7 +732,7 @@ async function deleteWallet(walletId) {
             method: "DELETE"
         });
 
-        alert("Xóa ví thành công.");
+        alert("XÃ³a vÃ­ thÃ nh cÃ´ng.");
         await loadWallets();
     } catch (error) {
         alert(error.message);
@@ -741,28 +741,28 @@ async function deleteWallet(walletId) {
 
 function generateAIAnalysisFallback(data) {
     if (data.length === 0) {
-        return "Chưa có dữ liệu giao dịch. Bạn hãy thêm một vài khoản thu và chi để trợ lý AI có thể phân tích tình hình tài chính.";
+        return "ChÆ°a cÃ³ dá»¯ liá»‡u giao dá»‹ch. Báº¡n hÃ£y thÃªm má»™t vÃ i khoáº£n thu vÃ  chi Ä‘á»ƒ trá»£ lÃ½ AI cÃ³ thá»ƒ phÃ¢n tÃ­ch tÃ¬nh hÃ¬nh tÃ i chÃ­nh.";
     }
     const summary = calculateSummary(data);
     const expenseByCategory = groupExpenseByCategory(data);
     const sortedCategories = Object.entries(expenseByCategory).sort((a, b) => b[1] - a[1]);
 
-    let message = `Trong dữ liệu hiện tại, tổng thu là ${formatMoney(summary.income)}, tổng chi là ${formatMoney(summary.expense)}, số dư còn lại là ${formatMoney(summary.balance)}. `;
+    let message = `Trong dá»¯ liá»‡u hiá»‡n táº¡i, tá»•ng thu lÃ  ${formatMoney(summary.income)}, tá»•ng chi lÃ  ${formatMoney(summary.expense)}, sá»‘ dÆ° cÃ²n láº¡i lÃ  ${formatMoney(summary.balance)}. `;
 
     if (sortedCategories.length > 0) {
         const [topCategory, topAmount] = sortedCategories[0];
-        message += `Danh mục chi nhiều nhất là ${topCategory}, với tổng số tiền ${formatMoney(topAmount)}. `;
+        message += `Danh má»¥c chi nhiá»u nháº¥t lÃ  ${topCategory}, vá»›i tá»•ng sá»‘ tiá»n ${formatMoney(topAmount)}. `;
     }
 
-    message += "Gợi ý: nên ghi chép giao dịch hằng ngày, kiểm tra biểu đồ mỗi tuần và đặt mục tiêu tiết kiệm tối thiểu 10-20% thu nhập.";
+    message += "Gá»£i Ã½: nÃªn ghi chÃ©p giao dá»‹ch háº±ng ngÃ y, kiá»ƒm tra biá»ƒu Ä‘á»“ má»—i tuáº§n vÃ  Ä‘áº·t má»¥c tiÃªu tiáº¿t kiá»‡m tá»‘i thiá»ƒu 10-20% thu nháº­p.";
 
     return message;
 }
 
 function buildAIAnalysisText(aiResult) {
-    let text = aiResult.analysis || "AI chưa trả về nội dung phân tích.";
+    let text = aiResult.analysis || "AI chÆ°a tráº£ vá» ná»™i dung phÃ¢n tÃ­ch.";
     if (Array.isArray(aiResult.suggestions) && aiResult.suggestions.length > 0) {
-        text += "\n\nGợi ý:";
+        text += "\n\nGá»£i Ã½:";
         aiResult.suggestions.forEach(item => {
             text += `\n- ${item}`;
         });
@@ -770,7 +770,7 @@ function buildAIAnalysisText(aiResult) {
 
     if (aiResult.ai_engine) {
         const engineName = aiResult.ai_engine === "gemini" ? "Gemini API" : "Rule-based fallback";
-        text += `\n\nNguồn xử lý: ${engineName}`;
+        text += `\n\nNguá»“n xá»­ lÃ½: ${engineName}`;
     }
 
     return text;
@@ -821,7 +821,7 @@ async function renderAIAnalysis(data) {
         return;
     }
 
-    setAIAnalysisText("AI Backend đang phân tích dữ liệu tài chính...");
+    setAIAnalysisText("AI Backend Ä‘ang phÃ¢n tÃ­ch dá»¯ liá»‡u tÃ i chÃ­nh...");
 
     try {
         const aiResult = await getAIAnalysisFromBackend(data);
@@ -857,7 +857,7 @@ async function handleAIQuestion(event) {
     const question = input.value.trim();
 
     if (!question) {
-        alert("Vui lòng nhập câu hỏi cho trợ lý AI.");
+        alert("Vui lÃ²ng nháº­p cÃ¢u há»i cho trá»£ lÃ½ AI.");
         return;
     }
 
@@ -865,10 +865,10 @@ async function handleAIQuestion(event) {
 
     chatBox.innerHTML += `
         <div class="user-message mb-3">
-            <b>Bạn:</b> ${escapeHTML(question)}
+            <b>Báº¡n:</b> ${escapeHTML(question)}
         </div>
         <div class="ai-message mb-3">
-            <b>AI:</b> Đang gửi câu hỏi tới AI Backend...
+            <b>AI:</b> Äang gá»­i cÃ¢u há»i tá»›i AI Backend...
         </div>
     `;
 
@@ -877,7 +877,7 @@ async function handleAIQuestion(event) {
 
     try {
         const aiResult = await getAIChatAnswerFromBackend(question, data);
-        const answer = aiResult.answer || "AI chưa có câu trả lời phù hợp.";
+        const answer = aiResult.answer || "AI chÆ°a cÃ³ cÃ¢u tráº£ lá»i phÃ¹ há»£p.";
         const engineName = aiResult.ai_engine === "gemini" ? "Gemini API" : "Rule-based fallback";
 
         const aiMessages = chatBox.querySelectorAll(".ai-message");
@@ -886,7 +886,7 @@ async function handleAIQuestion(event) {
         if (lastAiMessage) {
             lastAiMessage.innerHTML = `
                 <b>AI:</b> ${escapeHTML(answer)}
-                <div class="text-xs text-slate-500 mt-1">Nguồn xử lý: ${engineName}</div>
+                <div class="text-xs text-slate-500 mt-1">Nguá»“n xá»­ lÃ½: ${engineName}</div>
             `;
         }
     } catch (error) {
@@ -894,7 +894,7 @@ async function handleAIQuestion(event) {
         const lastAiMessage = aiMessages[aiMessages.length - 1];
 
         if (lastAiMessage) {
-            lastAiMessage.innerHTML = `<b>AI:</b> Không thể kết nối AI Backend. ${escapeHTML(error.message)}`;
+            lastAiMessage.innerHTML = `<b>AI:</b> KhÃ´ng thá»ƒ káº¿t ná»‘i AI Backend. ${escapeHTML(error.message)}`;
         }
     }
 
@@ -907,7 +907,7 @@ function normalizeAITransactions(aiResult, originalText) {
             .filter(item => Number(item.amount || 0) > 0)
             .map(item => ({
                 type: item.type || item.transaction_type || aiResult.transaction_type || "Chi",
-                category: item.category || aiResult.category || "Khác",
+                category: item.category || aiResult.category || "KhÃ¡c",
                 amount: Number(item.amount || 0),
                 note: item.note || originalText
             }));
@@ -917,7 +917,7 @@ function normalizeAITransactions(aiResult, originalText) {
         return [
             {
                 type: aiResult.transaction_type || "Chi",
-                category: aiResult.category || "Khác",
+                category: aiResult.category || "KhÃ¡c",
                 amount: Number(aiResult.amount || 0),
                 note: aiResult.note || originalText
             }
@@ -931,22 +931,22 @@ function buildQuickAddMessage(aiResult, count) {
     const engineName = aiResult.ai_engine === "gemini" ? "Gemini API" : "Rule-based fallback";
     
     if (count <= 0) {
-        return aiResult.explanation || "AI chưa nhận diện được giao dịch hợp lệ.";
+        return aiResult.explanation || "AI chÆ°a nháº­n diá»‡n Ä‘Æ°á»£c giao dá»‹ch há»£p lá»‡.";
     }
 
     let message = "";
 
     if (count === 1) {
-        message = aiResult.explanation || "AI đã thêm 1 giao dịch vào danh sách.";
+        message = aiResult.explanation || "AI Ä‘Ã£ thÃªm 1 giao dá»‹ch vÃ o danh sÃ¡ch.";
     } else {
-        message = `AI đã tách và thêm ${count} giao dịch từ câu nhập.`;
+        message = `AI Ä‘Ã£ tÃ¡ch vÃ  thÃªm ${count} giao dá»‹ch tá»« cÃ¢u nháº­p.`;
     }
 
     if (aiResult.gemini_error && aiResult.ai_engine !== "gemini") {
-        message += " Gemini hiện bị giới hạn quota nên hệ thống đã dùng cơ chế dự phòng.";
+        message += " Gemini hiá»‡n bá»‹ giá»›i háº¡n quota nÃªn há»‡ thá»‘ng Ä‘Ã£ dÃ¹ng cÆ¡ cháº¿ dá»± phÃ²ng.";
     }
 
-    message += ` Nguồn xử lý: ${engineName}.`;
+    message += ` Nguá»“n xá»­ lÃ½: ${engineName}.`;
 
     return message;
 }
@@ -961,18 +961,18 @@ async function handleQuickAdd(event) {
     const text = input.value.trim();
 
     if (!text) {
-        alert("Vui lòng nhập nội dung giao dịch.");
+        alert("Vui lÃ²ng nháº­p ná»™i dung giao dá»‹ch.");
         return;
     }
 
-    result.textContent = "AI Backend đang phân tích câu giao dịch...";
+    result.textContent = "AI Backend Ä‘ang phÃ¢n tÃ­ch cÃ¢u giao dá»‹ch...";
 
     try {
         const aiResult = await parseTransactionByAI(text);
         const aiTransactions = normalizeAITransactions(aiResult, text);
 
         if (!aiResult.is_valid || aiTransactions.length === 0) {
-            result.textContent = aiResult.explanation || "AI chưa nhận diện được giao dịch hợp lệ.";
+            result.textContent = aiResult.explanation || "AI chÆ°a nháº­n diá»‡n Ä‘Æ°á»£c giao dá»‹ch há»£p lá»‡.";
             return;
         }
 
@@ -998,9 +998,9 @@ async function handleQuickAdd(event) {
         input.value = "";
         renderDashboard();
 
-        setAIAnalysisText("Dữ liệu vừa được cập nhật bằng AI. Mở lại mục Tổng quan hoặc Trợ lý AI để hệ thống phân tích lại khi cần.");
+        setAIAnalysisText("Dá»¯ liá»‡u vá»«a Ä‘Æ°á»£c cáº­p nháº­t báº±ng AI. Má»Ÿ láº¡i má»¥c Tá»•ng quan hoáº·c Trá»£ lÃ½ AI Ä‘á»ƒ há»‡ thá»‘ng phÃ¢n tÃ­ch láº¡i khi cáº§n.");
     } catch (error) {
-        result.textContent = `Không thể gọi AI Backend. ${error.message}`;
+        result.textContent = `KhÃ´ng thá»ƒ gá»i AI Backend. ${error.message}`;
     }
 }
 
@@ -1022,16 +1022,16 @@ function getReportRangeText() {
     const period = document.getElementById("reportPeriod")?.value || "all";
     const month = document.getElementById("reportMonth")?.value || getCurrentMonth();
     const type = document.getElementById("reportType")?.value || "all";
-    let text = "Phạm vi báo cáo: ";
+    let text = "Pháº¡m vi bÃ¡o cÃ¡o: ";
 
     if (period === "all") {
-        text += "Tất cả dữ liệu";
+        text += "Táº¥t cáº£ dá»¯ liá»‡u";
     } else {
-        text += `Tháng ${month}`;
+        text += `ThÃ¡ng ${month}`;
     }
 
     if (type !== "all") {
-        text += ` - ${type === "Thu" ? "Chỉ khoản thu" : "Chỉ khoản chi"}`;
+        text += ` - ${type === "Thu" ? "Chá»‰ khoáº£n thu" : "Chá»‰ khoáº£n chi"}`;
     }
 
     return text;
@@ -1050,29 +1050,29 @@ function getTopExpenseCategory(data) {
 
 function buildReportSummary(data) {
     if (data.length === 0) {
-        return "Không có giao dịch nào trong phạm vi báo cáo đã chọn. Bạn có thể đổi bộ lọc hoặc thêm giao dịch mới để hệ thống tạo báo cáo chi tiết hơn.";
+        return "KhÃ´ng cÃ³ giao dá»‹ch nÃ o trong pháº¡m vi bÃ¡o cÃ¡o Ä‘Ã£ chá»n. Báº¡n cÃ³ thá»ƒ Ä‘á»•i bá»™ lá»c hoáº·c thÃªm giao dá»‹ch má»›i Ä‘á»ƒ há»‡ thá»‘ng táº¡o bÃ¡o cÃ¡o chi tiáº¿t hÆ¡n.";
     }
     const summary = calculateSummary(data);
     const topCategory = getTopExpenseCategory(data);
 
-    let text = `Trong phạm vi báo cáo, tổng thu đạt ${formatMoney(summary.income)}, tổng chi là ${formatMoney(summary.expense)}, số dư còn lại là ${formatMoney(summary.balance)}. `;
+    let text = `Trong pháº¡m vi bÃ¡o cÃ¡o, tá»•ng thu Ä‘áº¡t ${formatMoney(summary.income)}, tá»•ng chi lÃ  ${formatMoney(summary.expense)}, sá»‘ dÆ° cÃ²n láº¡i lÃ  ${formatMoney(summary.balance)}. `;
 
     if (summary.income > 0) {
-        text += `Tỷ lệ tiết kiệm đạt ${summary.savingRate.toFixed(1)}%. `;
+        text += `Tá»· lá»‡ tiáº¿t kiá»‡m Ä‘áº¡t ${summary.savingRate.toFixed(1)}%. `;
     } else {
-        text += "Chưa có dữ liệu thu nhập nên tỷ lệ tiết kiệm chưa được đánh giá đầy đủ. ";
+        text += "ChÆ°a cÃ³ dá»¯ liá»‡u thu nháº­p nÃªn tá»· lá»‡ tiáº¿t kiá»‡m chÆ°a Ä‘Æ°á»£c Ä‘Ã¡nh giÃ¡ Ä‘áº§y Ä‘á»§. ";
     }
 
     if (topCategory) {
-        text += `Danh mục chi tiêu lớn nhất là ${topCategory.category}, với tổng số tiền ${formatMoney(topCategory.amount)}. `;
+        text += `Danh má»¥c chi tiÃªu lá»›n nháº¥t lÃ  ${topCategory.category}, vá»›i tá»•ng sá»‘ tiá»n ${formatMoney(topCategory.amount)}. `;
     }
 
     if (summary.balance < 0) {
-        text += "Số dư đang âm, người dùng cần kiểm soát chi tiêu và ưu tiên giảm các khoản chi không cần thiết.";
+        text += "Sá»‘ dÆ° Ä‘ang Ã¢m, ngÆ°á»i dÃ¹ng cáº§n kiá»ƒm soÃ¡t chi tiÃªu vÃ  Æ°u tiÃªn giáº£m cÃ¡c khoáº£n chi khÃ´ng cáº§n thiáº¿t.";
     } else if (summary.savingRate >= 20) {
-        text += "Tình hình tài chính khá tích cực, tỷ lệ tiết kiệm đang ở mức tốt.";
+        text += "TÃ¬nh hÃ¬nh tÃ i chÃ­nh khÃ¡ tÃ­ch cá»±c, tá»· lá»‡ tiáº¿t kiá»‡m Ä‘ang á»Ÿ má»©c tá»‘t.";
     } else {
-        text += "Người dùng nên đặt ngân sách theo danh mục và tăng tỷ lệ tiết kiệm trong các kỳ tiếp theo.";
+        text += "NgÆ°á»i dÃ¹ng nÃªn Ä‘áº·t ngÃ¢n sÃ¡ch theo danh má»¥c vÃ  tÄƒng tá»· lá»‡ tiáº¿t kiá»‡m trong cÃ¡c ká»³ tiáº¿p theo.";
     }
 
     return text;
@@ -1093,7 +1093,7 @@ function renderReportSummaryCards(data) {
     if (reportBalance) reportBalance.textContent = formatMoney(summary.balance);
     if (reportSavingRate) reportSavingRate.textContent = summary.savingRate.toFixed(1) + "%";
     if (reportTransactionCount) reportTransactionCount.textContent = data.length;
-    if (reportTopCategory) reportTopCategory.textContent = topCategory ? topCategory.category : "Không có";
+    if (reportTopCategory) reportTopCategory.textContent = topCategory ? topCategory.category : "KhÃ´ng cÃ³";
 }
 
 function getReportCategoryRows(data) {
@@ -1134,7 +1134,7 @@ function renderReportCategoryTable(data) {
         tbody.innerHTML = `
             <tr>
                 <td colspan="5" class="text-center text-slate-500 py-8">
-                    Không có dữ liệu danh mục.
+                    KhÃ´ng cÃ³ dá»¯ liá»‡u danh má»¥c.
                 </td>
             </tr>
         `;
@@ -1173,7 +1173,7 @@ function renderReportMonthlyTable(data) {
         tbody.innerHTML = `
             <tr>
                 <td colspan="5" class="text-center text-slate-500 py-8">
-                    Không có dữ liệu theo tháng.
+                    KhÃ´ng cÃ³ dá»¯ liá»‡u theo thÃ¡ng.
                 </td>
             </tr>
         `;
@@ -1216,7 +1216,7 @@ function renderReportCharts(data) {
     reportCategoryChart = new Chart(categoryCanvas, {
         type: "doughnut",
         data: {
-            labels: categoryLabels.length ? categoryLabels : ["Chưa có dữ liệu"],
+            labels: categoryLabels.length ? categoryLabels : ["ChÆ°a cÃ³ dá»¯ liá»‡u"],
             datasets: [{
                 data: categoryValues.length ? categoryValues : [1],
                 backgroundColor: [
@@ -1293,7 +1293,7 @@ function renderReport() {
     if (reportRangeText) reportRangeText.textContent = getReportRangeText();
 
     if (reportGeneratedAt) {
-        reportGeneratedAt.textContent = "Thời gian tạo báo cáo: " + new Date().toLocaleString("vi-VN");
+        reportGeneratedAt.textContent = "Thá»i gian táº¡o bÃ¡o cÃ¡o: " + new Date().toLocaleString("vi-VN");
     }
 
     if (reportSummaryText) {
@@ -1349,7 +1349,7 @@ function downloadFile(filename, content, type = "text/plain;charset=utf-8") {
 function exportReportCSV() {
     const data = getFilteredReportTransactions();
     if (data.length === 0) {
-        alert("Không có dữ liệu để xuất CSV.");
+        alert("KhÃ´ng cÃ³ dá»¯ liá»‡u Ä‘á»ƒ xuáº¥t CSV.");
         return;
     }
 
